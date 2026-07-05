@@ -7,7 +7,6 @@ import type I18nKey from "./i18nKey";
 import { en } from "./languages/en";
 import { zh_hant } from "./languages/zh_hant";
 import { zh_hans } from "./languages/zh_hans";
-import { ja } from "./languages/ja";
 
 export type Translation = {
     [K in I18nKey]: string;
@@ -47,72 +46,6 @@ export const LANGUAGE_CONFIG = {
         locale: "zh-Hans",
         icon: "🇨🇳",
     },
-    ru: {
-        translateCode: "russian",
-        displayName: "Русский",
-        locale: "ru-RU",
-        icon: "🇷🇺",
-    },
-    de: {
-        translateCode: "deutsch",
-        displayName: "Deutsch",
-        locale: "de-DE",
-        icon: "🇩🇪",
-    },
-    fr: {
-        translateCode: "french",
-        displayName: "Français",
-        locale: "fr-FR",
-        icon: "🇫🇷",
-    },
-    es: {
-        translateCode: "spanish",
-        displayName: "Español",
-        locale: "es-ES",
-        icon: "🇪🇸",
-    },
-    tr: {
-        translateCode: "turkish",
-        displayName: "Türkçe",
-        locale: "tr-TR",
-        icon: "🇹🇷",
-    },
-    ar: {
-        translateCode: "arabic",
-        displayName: "العربية",
-        locale: "ar-SA",
-        icon: "🇸🇦",
-    },
-    ko: {
-        translateCode: "korean",
-        displayName: "한국어",
-        locale: "ko-KR",
-        icon: "🇰🇷",
-    },
-    ja: {
-        translateCode: "japanese",
-        displayName: "日本語",
-        locale: "ja-JP",
-        icon: "🇯🇵",
-    },
-    th: {
-        translateCode: "thai",
-        displayName: "ไทย",
-        locale: "th-TH",
-        icon: "🇹🇭",
-    },
-    vi: {
-        translateCode: "vietnamese",
-        displayName: "Tiếng Việt",
-        locale: "vi-VN",
-        icon: "🇻🇳",
-    },
-    id: {
-        translateCode: "indonesian",
-        displayName: "Bahasa Indonesia",
-        locale: "id-ID",
-        icon: "🇮🇩",
-    },
 } as const satisfies Record<string, LanguageConfig>;
 
 export type SupportedLanguage = keyof typeof LANGUAGE_CONFIG;
@@ -131,7 +64,6 @@ export const LANGUAGE_REGION_MAP: Record<string, SupportedLanguage> = {
     zh_hk: "zh_hant",
     zh_mo: "zh_hant",
     zh_tw: "zh_hant",
-    ja_jp: "ja",
 };
 
 /** 支持的语言代码列表 */
@@ -174,7 +106,6 @@ export const localTranslations: Partial<Record<SupportedLanguage, Translation>> 
     en,
     zh_hant,
     zh_hans,
-    ja,
 };
 
 /**

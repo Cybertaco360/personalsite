@@ -4,14 +4,10 @@ title: Friends
 
 ## How to Apply
 
-Please send your website information to: xxx@xxx.com
+Please send your website information to me through various forms of contact.
 
-Email Subject:
-```
-Request to Add Friend
-```
 
-Email Content (Template):
+Information I'd need to have you on my friends :) :
 ```
 Site Name: [Your Site Name]
 Site Desc: [Your Site Description]
