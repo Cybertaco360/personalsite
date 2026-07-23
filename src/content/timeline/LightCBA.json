@@ -1,0 +1,25 @@
+{
+    "title": "LightCBA",
+    "description": "Started developing LightCBA, an open-source replacement for the software used with West Mountain Radio's CBA battery analyzers. What began as a way to support Linux eventually grew into a much larger project exploring desktop applications, hardware communication, data visualization, and cross-platform development. It remains one of the projects that best reflects how I enjoy approaching software—building practical tools to solve problems I personally encounter.",
+    "type": "project",
+    "startDate": "2025-11-01",
+    "endDate": "",
+    "skills": [
+        "Rust",
+        "Python",
+        "Tauri",
+        "Vue",
+        "Hardware Communication"
+    ],
+    "achievements": [],
+    "links": [
+        {
+            "name": "GitHub Repository",
+            "url": "https://github.com/Cybertaco360/LightCBA",
+            "type": "project"
+        }
+    ],
+    "icon": "material-symbols:battery-android-frame-shield",
+    "color": ["#16A34A", "#BBB"],
+    "featured": true
+}

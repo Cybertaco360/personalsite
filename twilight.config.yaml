@@ -44,7 +44,7 @@ site:
         # 主题色的默认色相 (范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345)
         hue: 280
     # 默认主题 ("system" 跟随系统 | "light" 浅色 | "dark" 深色)
-    defaultTheme: "dark"
+    defaultTheme: "system"
     # 壁纸配置
     wallpaper:
         # 模式 ("banner" 横幅 | "fullscreen" 全屏 | "none" 纯色)
@@ -53,9 +53,9 @@ site:
         src:
             # 桌面壁纸图片 (相对于 /public 目录; 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播)
             desktop:
-                - "/assets/images/desktopWallpaper_1.jpg"
-                - "/assets/images/desktopWallpaper_2.jpg"
-                - "/assets/images/desktopWallpaper_3.jpg"
+                - "/assets/images/background-1.png"
+                - "/assets/images/background-2.png"
+                - "/assets/images/background-3.png"
             # 移动壁纸图片 (相对于 /public 目录; 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播)
             mobile:
                 - "/assets/images/mobileWallpaper_1.jpg"
@@ -86,7 +86,7 @@ site:
                     # 启用副标题打字机效果
                     enable: true
                     # 打字速度 (毫秒)
-                    speed: 111
+                    speed: 100
                     # 删除速度 (毫秒)
                     deleteSpeed: 51
                     # 完全显示后的暂停时间 (毫秒)
@@ -417,18 +417,7 @@ musicPlayer:
     # 启用音乐播放器功能
     enable: true
     # 默认模式 ("meting" API | "local" 本地)
-    mode: "meting"
-    # meting 模式专属配置
-    meting:
-        # Meting API 地址
-        meting_api: "https://meting.spr-aachen.com/api"
-        # 音乐平台
-        server: "netease"
-        # 类型 ("playlist" 歌单 | "song" 单曲)
-        type: "playlist"
-        # 资源 ID
-        id: "2161912966"
-    # local 模式专属配置
+    mode: "local"
     local:
         # 播放列表
         playlist:
@@ -436,17 +425,17 @@ musicPlayer:
                 # 序号
                 id: 1
                 # 标题
-                title: "深海之息"
+                title: "Addison Rae - Fame is a Gun [Altare Remix]"
                 # 作者
-                artist: "Youzee Music"
+                artist: "Altare"
                 # 封面
-                cover: "https://p1.music.126.net/PhKOqFtljgHDDpKYM2ADUA==/109951169858309716.jpg"
+                cover: "/public/assets/music/Addison Rae - Fame is a Gun [Altare Remix].jpg"
                 # 音乐路径
-                url: "assets/music/深海之息.m4a"
+                url: "/public/assets/music/Addison Rae - Fame is a Gun [Altare Remix].mp3"
                 # 歌词路径
-                lrc: "assets/music/深海之息.lrc"
+                lrc: "/public/assets/music/Addison Rae - Fame is a Gun [Altare Remix].lrc"
                 # 时长
-                duration: 146
+                duration: 212
     # 是否自动播放
     autoplay: true
 

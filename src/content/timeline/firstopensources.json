@@ -1,0 +1,29 @@
+{
+    "title": "My First Open Source Contributions",
+    "description": "Made my first meaningful contributions to open source projects. Although they started as small bug fixes and improvements, they completely changed how I viewed software. Open source was no longer something I downloaded—it became something I could learn from, contribute to, and eventually build alongside other developers.",
+    "type": "milestone",
+    "startDate": "2025-02-01",
+    "endDate": "2025-03-31",
+    "skills": [
+        "Git",
+        "GitHub",
+        "Open Source",
+        "Code Review"
+    ],
+    "achievements": [
+        "Merged my first pull requests"
+    ],
+    "links": [{
+        "name": "wmr_cba",
+        "url": "https://github.com/da66en/python_wmr_cba/pull/3",
+        "type": "github"
+    },
+    {
+        "name": "MonkeyType",
+        "url": "https://github.com/monkeytypegame/monkeytype/pull/6348",
+        "type": "github"
+    }],
+    "icon": "simple-icons:github",
+    "color": ["#000", "#7C3AED"],
+    "featured": true
+}

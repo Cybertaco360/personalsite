@@ -1,0 +1,21 @@
+{
+    "title": "University of Waterloo Electric Vehicle Competition",
+    "description": "Joined my high school's Electric Vehicle team and worked on telemetry, networking, and data management for our race car. It was one of my first opportunities to build software around real hardware, where reliability mattered just as much as writing code. Looking back, this experience sparked much of my interest in systems, research, and implementations beyond the classroom.",
+    "type": "competition",
+    "startDate": "2023-09-05",
+    "endDate": "2026-05-25",
+    "skills": [
+        "Telemetry",
+        "Networking",
+        "Data Analysis",
+        "Embedded Systems"
+    ],
+    "achievements": [
+        "University of Waterloo EVC 24V - 1st Place (×2)",
+        "University of Waterloo EVC 2026 Event Champion"
+    ],
+    "links": [],
+    "icon": "material-symbols:electric-car",
+    "color": ["#EB0", "#000"],
+    "featured": true
+}

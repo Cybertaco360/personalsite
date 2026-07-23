@@ -1,0 +1,13 @@
+{
+    "title": "A New Chapter at SJTU",
+    "description": "Accepted into Shanghai Jiao Tong University to study Computer Science and Technology as part of the Class of 2030. Preparing for university also gave me the push to finally create the public notes website I had wanted since I was fourteen.",
+    "type": "education",
+    "startDate": "2026-07-01",
+    "endDate": "",
+    "skills": [],
+    "achievements": [],
+    "links": [],
+    "icon": "material-symbols:school",
+    "color": ["#000","#B91C1C", "#FFF"],
+    "featured": true
+}

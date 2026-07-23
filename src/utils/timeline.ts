@@ -20,7 +20,7 @@ export interface TimelineItem {
         type: "certificate" | "project" | "other";
     }[];
     icon?: string; // Iconify icon name
-    color?: string;
+    color?: string | string[];
     featured?: boolean;
     basePath?: string;
 }

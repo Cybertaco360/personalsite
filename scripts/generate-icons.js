@@ -74,6 +74,8 @@ function extractIconNames(content) {
         /icon=\{[`"']([a-z0-9-]+:[a-z0-9-]+)[`"']\}/gi,
         // JSON 格式: "icon": "xxx:yyy"
         /"icon"\s*:\s*"([a-z0-9-]+:[a-z0-9-]+)"/gi,
+        // 支持的 Iconify 字符串字面量: "xxx:yyy"
+        /["'`]((?:material-symbols|fa6-solid|fa6-brands|fa6-regular|mdi|eos-icons|logos|ic):[a-z0-9-]+)["'`]/gi,
     ];
 
     for (const pattern of patterns) {

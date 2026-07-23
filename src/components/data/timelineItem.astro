@@ -9,7 +9,7 @@ export interface Props {
         id: string;
         title: string;
         description: string;
-        type: "education" | "work" | "project" | "achievement";
+        type: "education" | "work" | "project" | "achievement" | "community" | "writing" | "milestone" | string;
         startDate: string;
         endDate?: string;
         location?: string;
@@ -23,7 +23,7 @@ export interface Props {
             type: "certificate" | "project" | "other";
         }[];
         icon?: string;
-        color?: string;
+        color?: string | string[];
         featured?: boolean;
     };
     showTimeline?: boolean;
@@ -65,9 +65,38 @@ const getTypeColor = (type: string) => {
             return "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400";
         case "achievement":
             return "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400";
+        case "writing":
+            return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400";
+        case "community":
+            return "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400";
         default:
             return "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400";
     }
+};
+
+// 类型发光颜色映射 (RGB)
+const getTypeGlowRgb = (type: string) => {
+    switch (type) {
+        case "education":
+            return "59, 130, 246";
+        case "work":
+            return "34, 197, 94";
+        case "project":
+            return "168, 85, 247";
+        case "achievement":
+            return "249, 115, 22";
+        case "writing":
+            return "234, 179, 8";
+        case "community":
+            return "20, 184, 166";
+        default:
+            return "107, 114, 128";
+    }
+};
+
+const getBadgeGlowStyle = (type: string) => {
+    const rgb = getTypeGlowRgb(type);
+    return `box-shadow: 0 0 0 1px rgba(${rgb}, 0.28), 0 0 16px rgba(${rgb}, 0.22)`;
 };
 
 // 类型文本映射
@@ -81,6 +110,10 @@ const getTypeText = (type: string) => {
             return i18n(I18nKey.timelineProject);
         case "achievement":
             return i18n(I18nKey.timelineAchievement);
+        case "writing":
+            return i18n(I18nKey.timelineWriting);
+        case "community":
+            return i18n(I18nKey.timelineCommunity);
         default:
             return type;
     }
@@ -90,13 +123,15 @@ const getTypeText = (type: string) => {
 const getLinkIcon = (type: string) => {
     switch (type) {
         case "certificate":
-            return "🏆";
+            return "material-symbols:workspace-premium";
         case "project":
-            return "📑";
+            return "simple-icons:github";
+        case "github":
+            return "material-symbols:code-xml";
         case "other":
-            return "🔗";
+            return "material-symbols:link";
         default:
-            return "🔗";
+            return "material-symbols:link";
     }
 };
 
@@ -162,8 +197,54 @@ const getSizeClasses = (size: string) => {
     }
 };
 
+const getColorPalette = (color?: string | string[]) => {
+    if (Array.isArray(color)) {
+        const palette = color.map((c) => c.trim()).filter(Boolean);
+        return palette.length > 0 ? palette : ["#3B82F6"];
+    }
+    if (typeof color === "string" && color.trim().length > 0) {
+        return [color.trim()];
+    }
+    return ["#3B82F6"];
+};
+
+const withHexAlpha = (color: string, alphaHex: string) => {
+    const hex6 = /^#([0-9a-fA-F]{6})$/;
+    const hex3 = /^#([0-9a-fA-F]{3})$/;
+    if (hex6.test(color)) {
+        return `${color}${alphaHex}`;
+    }
+    if (hex3.test(color)) {
+        const [, short] = color.match(hex3)!;
+        const expanded = `#${short[0]}${short[0]}${short[1]}${short[1]}${short[2]}${short[2]}`;
+        return `${expanded}${alphaHex}`;
+    }
+    return color;
+};
+
+const getGradientBackground = (palette: string[]) => {
+    if (palette.length === 1) {
+        return palette[0];
+    }
+    const lastIdx = palette.length - 1;
+    const stops = palette
+        .map((color, idx) => `${color} ${Math.round((idx / lastIdx) * 100)}%`)
+        .join(", ");
+    return `linear-gradient(135deg, ${stops})`;
+};
+
 const sizeClasses = getSizeClasses(size);
-const itemColor = item.color || "#3B82F6";
+const iconPalette = getColorPalette(item.color);
+const itemColor = iconPalette[0];
+const iconGradientBackground = getGradientBackground(iconPalette);
+const timelineIconSurfaceStyle = `background: ${iconGradientBackground};`;
+const timelineIconGlowStyle = `background: ${iconGradientBackground};`;
+const cardIconSurfaceStyle = iconPalette.length === 1
+    ? `background-color: ${withHexAlpha(itemColor, "20")};`
+    : `background: ${iconGradientBackground};`;
+const cardIconGlowStyle = `background: ${iconGradientBackground};`;
+const cardIconColor = iconPalette.length === 1 ? itemColor : "white";
+const typeBadgeGlowStyle = getBadgeGlowStyle(item.type);
 ---
 
 {layout === 'timeline' ? (
@@ -171,14 +252,23 @@ const itemColor = item.color || "#3B82F6";
     <div class="relative flex items-start gap-6">
         <!-- 时间线节点 -->
         {showTimeline && (
-            <div class={`relative z-10 rounded-full flex items-center justify-center shrink-0 ${sizeClasses.node}`} style={`background-color: ${itemColor}`}>
-                <Icon
-                    icon={item.icon || getTypeIcon(item.type)}
-                    class={`text-white ${sizeClasses.nodeIcon}`}
-                    color="white"
-                    fallback={item.title.charAt(0)}
-                    loading="eager"
-                />
+            <div class={`relative shrink-0 ${sizeClasses.node}`}>
+                <div
+                    class="absolute inset-0 rounded-full blur-md opacity-70 scale-110 pointer-events-none"
+                    style={timelineIconGlowStyle}
+                ></div>
+                <div
+                    class="relative z-10 rounded-full flex items-center justify-center w-full h-full"
+                    style={timelineIconSurfaceStyle}
+                >
+                    <Icon
+                        icon={item.icon || getTypeIcon(item.type)}
+                        class={`text-white ${sizeClasses.nodeIcon}`}
+                        color="white"
+                        fallback={item.title.charAt(0)}
+                        loading="eager"
+                    />
+                </div>
             </div>
         )}
         <!-- 内容卡片 -->
@@ -189,9 +279,6 @@ const itemColor = item.color || "#3B82F6";
                     <div>
                         <h3 class={`font-semibold text-black/90 dark:text-white/90 mb-1 ${sizeClasses.title}`}>
                             {item.title}
-                            {item.featured && (
-                                <span class="ml-2 text-yellow-500">⭐</span>
-                            )}
                         </h3>
                         {item.organization && (
                             <div class={`text-black/70 dark:text-white/70 ${sizeClasses.meta}`}>
@@ -199,7 +286,10 @@ const itemColor = item.color || "#3B82F6";
                             </div>
                         )}
                     </div>
-                    <span class={`px-2 py-1 rounded-full shrink-0 ml-4 ${sizeClasses.badge} ${getTypeColor(item.type)}`}>
+                    <span
+                        class={`px-2 py-1 rounded-full shrink-0 ml-4 ${sizeClasses.badge} ${getTypeColor(item.type)}`}
+                        style={typeBadgeGlowStyle}
+                    >
                         {getTypeText(item.type)}
                     </span>
                 </div>
@@ -242,7 +332,10 @@ const itemColor = item.color || "#3B82F6";
                     <div class="mb-4">
                         <div class="flex flex-wrap gap-1">
                             {item.skills.map((skill) => (
-                                <span class={`px-2 py-1 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-sm ${sizeClasses.badge}`}>
+                                <span
+                                    class={`px-2 py-1 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-sm ${sizeClasses.badge}`}
+                                    style={typeBadgeGlowStyle}
+                                >
                                     {skill}
                                 </span>
                             ))}
@@ -259,7 +352,7 @@ const itemColor = item.color || "#3B82F6";
                                 rel="noopener noreferrer"
                                 class={`inline-flex items-center px-3 py-1.5 rounded-md border border-(--primary) text-(--primary) bg-[color-mix(in_oklch,var(--primary)_8%,transparent)] hover:bg-[color-mix(in_oklch,var(--primary)_14%,transparent)] active:bg-[color-mix(in_oklch,var(--primary)_20%,transparent)] text-sm font-medium transition-colors gap-1 ${sizeClasses.meta}`}
                             >
-                                {getLinkIcon(link.type)}
+                                <Icon icon={getLinkIcon(link.type)} class="text-base" />
                                 {link.name}
                             </a>
                         ))}
@@ -274,14 +367,23 @@ const itemColor = item.color || "#3B82F6";
         <div class={sizeClasses.container}>
             <!-- 图标和标题 -->
             <div class="flex items-start gap-4 mb-3">
-                <div class={`rounded-lg flex items-center justify-center shrink-0 ${sizeClasses.node}`} style={`background-color: ${itemColor}20`}>
-                    <Icon
-                        icon={item.icon || getTypeIcon(item.type)}
-                        class={sizeClasses.nodeIcon}
-                        color={itemColor}
-                        fallback={item.title.charAt(0)}
-                        loading="eager"
-                    />
+                <div class={`relative shrink-0 ${sizeClasses.node}`}>
+                    <div
+                        class="absolute inset-0 rounded-lg blur-md opacity-60 scale-110 pointer-events-none"
+                        style={cardIconGlowStyle}
+                    ></div>
+                    <div
+                        class="relative rounded-lg flex items-center justify-center w-full h-full"
+                        style={cardIconSurfaceStyle}
+                    >
+                        <Icon
+                            icon={item.icon || getTypeIcon(item.type)}
+                            class={sizeClasses.nodeIcon}
+                            color={cardIconColor}
+                            fallback={item.title.charAt(0)}
+                            loading="eager"
+                        />
+                    </div>
                 </div>
                 <div class="flex-1">
                     <div class="flex items-start justify-between mb-2">
@@ -291,7 +393,10 @@ const itemColor = item.color || "#3B82F6";
                                 <span class="ml-2 text-yellow-500">⭐</span>
                             )}
                         </h3>
-                        <span class={`px-2 py-1 rounded-full shrink-0 ml-2 ${sizeClasses.badge} ${getTypeColor(item.type)}`}>
+                        <span
+                            class={`px-2 py-1 rounded-full shrink-0 ml-2 ${sizeClasses.badge} ${getTypeColor(item.type)}`}
+                            style={typeBadgeGlowStyle}
+                        >
                             {getTypeText(item.type)}
                         </span>
                     </div>
@@ -341,7 +446,10 @@ const itemColor = item.color || "#3B82F6";
                 {item.skills && item.skills.length > 0 && (
                     <div class="flex flex-wrap gap-1">
                         {item.skills.slice(0, 3).map((skill) => (
-                            <span class={`px-2 py-1 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-sm ${sizeClasses.badge}`}>
+                            <span
+                                class={`px-2 py-1 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-sm ${sizeClasses.badge}`}
+                                style={typeBadgeGlowStyle}
+                            >
                                 {skill}
                             </span>
                         ))}
@@ -359,9 +467,10 @@ const itemColor = item.color || "#3B82F6";
                                 href={link.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class={`inline-flex items-center px-3 py-1.5 rounded-md border border-(--primary) text-(--primary) bg-[color-mix(in_oklch,var(--primary)_8%,transparent)] hover:bg-[color-mix(in_oklch,var(--primary)_14%,transparent)] active:bg-[color-mix(in_oklch,var(--primary)_20%,transparent)] text-sm font-medium transition-colors ${sizeClasses.meta}`}
+                                class={`inline-flex items-center px-3 py-1.5 rounded-md border border-(--primary) text-(--primary) bg-[color-mix(in_oklch,var(--primary)_8%,transparent)] hover:bg-[color-mix(in_oklch,var(--primary)_14%,transparent)] active:bg-[color-mix(in_oklch,var(--primary)_20%,transparent)] text-sm font-medium transition-colors gap-1 ${sizeClasses.meta}`}
                             >
-                                {getLinkIcon(link.type)} {link.name}
+                                <Icon icon={getLinkIcon(link.type)} class="text-base" />
+                                {link.name}
                             </a>
                         ))}
                     </div>

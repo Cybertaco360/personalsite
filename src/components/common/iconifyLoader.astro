@@ -156,6 +156,18 @@ const { preloadIcons = [] } = Astro.props;
 
         loader.load();
 
+        // A second pass after DOM is ready avoids parser-timing races
+        // where <iconify-icon> nodes exist but were not replaced yet.
+        const renderWhenReady = () => {
+            loader.renderAllIcons().catch(console.error);
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderWhenReady, { once: true });
+        } else {
+            setTimeout(renderWhenReady, 0);
+        }
+
         window.loadIconify = () => loader.load();
         window.preloadIcons = (icons) => loader.addToPreloadQueue(icons);
         window.onIconifyReady = (cb) => loader.onLoad(cb);

@@ -132,6 +132,8 @@ export const zh_hant: Translation = {
     [Key.timelineWork]: "工作經歷",
     [Key.timelineProject]: "專案經歷",
     [Key.timelineAchievement]: "成就榮譽",
+    [Key.timelineWriting]: "寫作",
+    [Key.timelineCommunity]: "社群",
     [Key.timelinePresent]: "至今",
     [Key.timelineLocation]: "地點",
     [Key.timelineDescription]: "詳細描述",

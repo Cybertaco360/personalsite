@@ -1,0 +1,20 @@
+{
+    "title": "FIRST Robotics",
+    "description": "Joined FRC and began working on software, scouting, operations, and competition infrastructure. One of my most memorable moments was helping late night at competition adapt our scouting application for discussion use when meeting were held at competition.",
+    "type": "community",
+    "startDate": "2024-08-28",
+    "endDate": "2026-06-01",
+    "skills": [
+        "Robotics",
+        "Software Engineering",
+        "Teamwork"
+    ],
+    "achievements": [
+        "Regional Champion",
+        "Built an offline scouting workflow under competition pressure"
+    ],
+    "links": [],
+    "icon": "material-symbols:robot-2",
+    "color": ["#F00", "#000", "#00F"],
+    "featured": true
+}

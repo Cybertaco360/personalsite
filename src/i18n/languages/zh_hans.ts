@@ -132,6 +132,8 @@ export const zh_hans: Translation = {
     [Key.timelineWork]: "工作经历",
     [Key.timelineProject]: "项目经历",
     [Key.timelineAchievement]: "成就荣誉",
+    [Key.timelineWriting]: "写作",
+    [Key.timelineCommunity]: "社区",
     [Key.timelinePresent]: "至今",
     [Key.timelineLocation]: "地点",
     [Key.timelineDescription]: "详细描述",

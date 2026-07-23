@@ -1,135 +1,236 @@
-<div align = "center">
+<div align="center">
 
-# Twilight
-
-A CMS integrated static blog template built with Astro framework.
-
-[**🖥️ Live Demo**](https://twilight.spr-aachen.com)
-[**📝 Documentation**](https://docs.twilight.spr-aachen.com/en)
-
-[![Bilibili](https://img.shields.io/badge/Bilibili-Intro-blue?logo=Bilibili)](https://space.bilibili.com/359461611/lists/6641229)&nbsp;
-[![YouTube](https://img.shields.io/badge/YouTube-Intro-red?logo=YouTube)](https://youtube.com/playlist?list=PLzjq8Hx1SRV7yqZQiACcCJmKPeg5D8JKe&si=Bcz2o0PF8MFvx8ec)
-
-<table style="width: 100%; table-layout: fixed;">
-   <tr>
-      <td colspan="5"><img alt="Desktop" src="docs/image/Desktop.jpg" style="max-width: 100%;"></td>
-   </tr>
-   <tr>
-      <td><img alt="Mobile_4" src="docs/image/Mobile_4.jpg" style="max-width: 100%;"></td>
-      <td><img alt="Mobile_2" src="docs/image/Mobile_2.jpg" style="max-width: 100%;"></td>
-      <td><img alt="Mobile_1" src="docs/image/Mobile_1.jpg" style="max-width: 100%;"></td>
-      <td><img alt="Mobile_3" src="docs/image/Mobile_3.jpg" style="max-width: 100%;"></td>
-      <td><img alt="Mobile_5" src="docs/image/Mobile_5.jpg" style="max-width: 100%;"></td>
-   </tr>
-</table>
+## Maple's Library of Thoughts
 
 </div>
 
+> A public notebook about computer science, mathematics, robotics, AI, and whatever else I happen to be learning.
+
+This repository contains the source code for my personal notes and portfolio site. It is built with Astro, Svelte, Tailwind CSS, Pagefind search, and a heavily customized version of the Twilight theme.
+
+## Requirements
+
+- Node.js 20 or newer
+- pnpm 9.14.4, matching the `packageManager` field in `package.json`
+
+Install dependencies:
+
+```bash
+pnpm install
+```
+
+## Development
+
+Start the local development server:
+
+```bash
+pnpm dev
+```
+
+The dev script generates local icons first, then starts `astro dev`.
+
+Useful commands:
+
+```bash
+pnpm check
+pnpm type-check
+pnpm check-stylus
+pnpm new-post
+```
+
+- `pnpm check` runs Astro diagnostics.
+- `pnpm type-check` runs TypeScript without emitting files.
+- `pnpm check-stylus` validates inline Stylus compilation.
+- `pnpm new-post` starts the helper script for creating a new post.
+
+## Building
+
+Create a production build:
+
+```bash
+pnpm build
+```
+
+The build script performs three steps:
+
+1. Generates Iconify assets with `scripts/generate-icons.js`.
+2. Runs `astro build`.
+3. Generates the Pagefind search index for the output directory.
+
+Preview the production output locally:
+
+```bash
+pnpm preview
+```
+
+The static build is written to `dist/` for standard, GitHub, Cloudflare, Netlify, and EdgeOne builds. Vercel output is handled through `.vercel/output/static` by `scripts/build-with-pagefind.cjs`.
+
+## Project Structure
+
+```text
+src/
+  components/          Astro and Svelte UI components
+  components/common/   Shared buttons, icons, dropdowns, markdown, image wrappers
+  components/navbar/   Navigation, search, theme, wallpaper, and translation controls
+  components/sidebar/  Sidebar widgets, directory tree, tags, categories, profile
+  components/post/     Post card, metadata, and license components
+  components/data/     Reusable cards/items for projects, skills, and timeline data
+  constants/           Shared constants and link presets
+  content/             Markdown, MDX, JSON, and static content collections
+  i18n/                Translation keys, language config, and local translations
+  layouts/             Base and grid page layouts
+  pages/               Astro routes
+  plugins/             Markdown, rehype, remark, Mermaid, and Expressive Code plugins
+  styles/              Global CSS, Stylus variables, markdown, navbar, and feature styles
+  types/               Shared TypeScript types
+  utils/               Data loading, formatting, routing, theme, and content helpers
+```
+
+Root-level files to know:
+
+- `twilight.config.yaml` controls site title, language, navigation, sidebar widgets, profile, footer, wallpaper, analytics, comments, music player, and other theme behavior.
+- `astro.config.mjs` contains Astro integrations and build configuration.
+- `src/content.config.ts` defines Astro content collections and frontmatter schemas.
+- `pagefind.yml` configures search indexing.
+- `public/` contains static assets served from the site root.
+
+## Components
+
+Most reusable UI lives in `src/components/`.
+
+- Use `.astro` components for server-rendered layout, content, and static UI.
+- Use `.svelte` components when the component needs client-side state or interaction.
+- Put broadly reusable controls in `src/components/common/`.
+- Put route-specific or feature-specific components in the matching directory, such as `navbar/`, `sidebar/`, `post/`, or `data/`.
+- Keep component styles consistent with the existing global styles in `src/styles/`.
+
+When adding a new major section, prefer this pattern:
+
+1. Add the page route in `src/pages/`.
+2. Put reusable UI in `src/components/`.
+3. Put content/data helpers in `src/utils/`.
+4. Add shared types in `src/types/` if the data shape is reused.
+5. Add display text to the translation files if the UI needs localization.
+
+## Content
+
+Posts live under `src/content/posts/` and can be organized by category folders:
+
+```text
+src/content/posts/cs/
+src/content/posts/engineering/
+src/content/posts/math/
+src/content/posts/physics/
+src/content/posts/thoughts/
+```
+
+Supported post frontmatter is defined in `src/content.config.ts`. Common fields include:
+
+```yaml
 ---
+title: "Post title"
+published: 2026-07-23
+updated: 2026-07-23
+description: "Short summary for lists, feeds, and metadata."
+cover: "/assets/images/example.jpg"
+coverInContent: false
+category: ["cs", "systems"]
+tags: ["astro", "typescript"]
+lang: "en"
+pinned: false
+draft: false
+comment: true
+---
+```
 
-<div align = "center">
+Special pages such as `about.md` and `friends.md` live directly under `src/content/`. Timeline entries live in `src/content/timeline/*.json`, and project entries live in `src/content/projects/<project>/`.
 
-English | [**中文**](docs/README_ZH.md)
+## Language Translations
 
-</div>
+The site has two translation systems:
 
+- Local UI translations for navigation, labels, buttons, page titles, and other theme strings.
+- Optional client-side page translation configured in `twilight.config.yaml` under `site.translate`.
 
-## ✨ Features
+Local UI translations are stored in:
 
-### Content Management
-- **CMS Integration**: Headless CMS with OAuth for easy content management
-- **Pinned & Draft Posts**: Pin important posts or hide drafts in production
-- **Password-Protected Posts**: AES-encrypted articles with password access
-- **Automatic Navigation**: Auto-generated post navigation, archive, and TOC
-- **Data Visualization**: Visualized personal data like projects, skills, timeline
+```text
+src/i18n/i18nKey.ts
+src/i18n/language.ts
+src/i18n/languages/en.ts
+src/i18n/languages/zh_hans.ts
+src/i18n/languages/zh_hant.ts
+src/i18n/translation.ts
+```
 
-### Content Pages
-- **Blog Posts**: Full-featured markdown blogging with tags and categories
-- **Projects & Skills Showcase**: Visual galleries for your portfolio
-- **Timeline**: Biography page with education, work, achievements, and skills
-- **Diary**: Short-form microblog-style posts with timestamps
-- **Albums**: Image gallery with Fancybox lightbox integration
-- **Friends Links**: Friend link exchange with icons and descriptions
-- **RSS & Atom Feeds**: Dedicated info pages with auto-generated XML feeds
+To add or update a UI string:
 
-### Markdown Enhancements
-- **GitHub Repository Cards**: Embed live repo cards via `::github{repo="..."}`
-- **Music Cards**: Inline audio player with lyrics via `::music{...}`
-- **Admonitions / Callouts**: Note, tip, warning, and caution styled blocks
-- **Code Block Enhancements**: Copy button, collapse, line numbers, language badges
-- **Mermaid Diagrams**: Render ` ```mermaid ` code blocks as diagrams
-- **KaTeX Math Rendering**: LaTeX math expressions with `$...$` and `$$...$$`
+1. Add the key to `src/i18n/i18nKey.ts`.
+2. Add the translated value to every file in `src/i18n/languages/`.
+3. Use `i18n(I18nKey.someKey)` from `src/i18n/translation.ts` in Astro/TypeScript code.
 
-### UI Components
-- **Loading Overlay**: Configurable splash screen with spinner animation
-- **Sidebar Widget System**: Configurable profile, announcement, TOC, categories, tags, directory, statistics etc.
-- **Analytics Support**: Umami analytics integration for visitor insights
-- **Comment System**: Twikoo-powered comment functionality
-- **Music Player**: Background music with meting API or local playlist support
-- **PIO Widget**: Interactive Live2D character with customizable dialog
+To add a new supported local language:
 
-### Visual Effects
-- **Smooth Transition Animations**: Polished page component transition animations
-- **Customizable Theme Colors**: Real-time customizable color schemes
-- **Dynamic Wallpaper System**: Carousel support with multiple display modes
-- **Immersive Particle Effects**: Highly customizable animated particles
-- **Custom Fonts**: Configurable web fonts via CSS links or local files
+1. Create `src/i18n/languages/<lang>.ts`.
+2. Add the language metadata to `LANGUAGE_CONFIG` in `src/i18n/language.ts`.
+3. Import the new translation module in `src/i18n/language.ts`.
+4. Add it to `localTranslations`.
+5. Add region aliases to `LANGUAGE_REGION_MAP` if browser locale variants should resolve to it.
 
-### Compatibility
-- **Modern & Responsive Design**: Fully optimized for desktop and mobile devices
-- **Multilingual Capability**: 3 UI languages (en/zh/ja) & 12+ page translation languages
-- **Multiple Deployment Adapters**: Support Cloudflare, Netlify, Vercel, EdgeOne and other static hosting platforms
-- **Docker Support**: Ready-to-use Docker and docker-compose setup
+The site language defaults to `site.lang` in `twilight.config.yaml`. Post language can be set per post with the `lang` frontmatter field.
 
+Client-side translation can be enabled in `twilight.config.yaml`:
 
-## 💻 Configuration
+```yaml
+site:
+  translate:
+    enable: true
+    service: "client.edge"
+    showSelectTag: true
+    autoDiscriminate: true
+```
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Spr-Aachen/Twilight.git
-   # Navigate to the project directory
-   cd Twilight
-   ```
+Use `ignoreClasses` and `ignoreTags` in that same config block for content that should not be translated, such as code blocks or branded text.
 
-2. **Install dependencies:**
-   ```bash
-   # Install pnpm if not already installed
-   npm install -g pnpm
-   # Install project dependencies
-   pnpm install
-   ```
+## Configuration
 
-3. **Configure your blog:**
-   - [Customize blog settings](https://docs.twilight.spr-aachen.com/en/config/core) inside `twilight.config.yaml`
-   - [Manage site content](https://docs.twilight.spr-aachen.com/en/config/content) inside `src/content`
+Most site-level customization belongs in `twilight.config.yaml`, including:
 
-4. **Start the development server:**
-   ```bash
-   pnpm dev
-   ```
+- Site URL, title, subtitle, default language, and timezone
+- Navbar links and nested menu items
+- Sidebar widget layout and visibility
+- Profile, announcement, and footer content
+- Theme color, default theme, wallpaper, and loading overlay
+- Analytics and comment integrations
+- Music player, particles, and Pio settings
 
+Environment-backed analytics values can be provided through:
 
-## 🚀 Deployment
+```bash
+UMAMI_API_KEY=
+UMAMI_TRACKING_CODE=
+```
 
-Deploy your blog to any static hosting platform
+## Feeds, Search, and Generated Files
 
+- RSS and Atom routes are defined under `src/pages/rss*` and `src/pages/atom*`.
+- Sitemap and robots output are handled by Astro routes and integrations.
+- Pagefind search files are generated during `pnpm build`.
+- Generated build output in `dist/` should not be edited by hand.
 
-## ⚡ Commands
+## Deployment
 
-| Command                     | Action                        |
-|:----------------------------|:------------------------------|
-| ~~`pnpm lint`~~             | ~~Check and fix code issues~~ |
-| ~~`pnpm format`~~           | ~~Format code with Biome~~    |
-| `pnpm check`                | Run Astro error checking      |
-| `pnpm dev`                  | Start local dev server        |
-| `pnpm build`                | Build site to `./dist/`       |
-| `pnpm preview`              | Preview build locally         |
-| `pnpm astro ...`            | Run Astro CLI commands        |
-| `pnpm new-post <filename>`  | Create a new blog post        |
+The repository includes configuration for several deployment targets:
 
+- `vercel.json` for Vercel
+- `_headers` / `public/_headers` for static host headers
+- `Dockerfile` and `docker-compose.yml` for containerized deployment
+- Astro adapters for Cloudflare, Netlify, Vercel, and EdgeOne
 
-## 🙏 Acknowledgements
+Run `pnpm build` before deploying unless the hosting platform runs the build command automatically.
 
-- Prototype   - [Fuwari](https://github.com/saicaca/fuwari)
-- Inspiration - [Yukina](https://github.com/WhitePaper233/yukina) & [Mizuki](https://github.com/matsuzaka-yuki/Mizuki)
-- Translation - [translate](https://gitee.com/mail_osc/translate)
+## Philosophy
+
+This website is a garden, not a museum.
+
+Things here change over time. Old opinions may disappear. New ideas may contradict older ones. Hopefully that's a sign that I'm still learning.

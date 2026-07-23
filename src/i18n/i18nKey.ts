@@ -129,6 +129,8 @@ enum I18nKey {
     timelineWork = "timelineWork",
     timelineProject = "timelineProject",
     timelineAchievement = "timelineAchievement",
+    timelineWriting = "timelineWriting",
+    timelineCommunity = "timelineCommunity",
     timelinePresent = "timelinePresent",
     timelineLocation = "timelineLocation",
     timelineDescription = "timelineDescription",

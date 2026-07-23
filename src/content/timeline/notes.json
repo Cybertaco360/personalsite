@@ -1,0 +1,22 @@
+{
+    "title": "Started My Public Notes Site",
+    "description": "I had wanted to create a public notes site since I was fourteen, inspired by small personal blogs that felt like hidden gems on the internet. After finishing high school and preparing for university, I finally stopped planning it and began building it.",
+    "type": "writing",
+    "startDate": "2026-07-01",
+    "endDate": "",
+    "skills": [
+        "Astro",
+        "Svelte"
+    ],
+    "achievements": [],
+    "links": [
+        {
+            "name": "Source Repository",
+            "url": "https://github.com/Cybertaco360/personal-site-V2",
+            "type": "project"
+        }
+    ],
+    "icon": "material-symbols:edit-document",
+    "color": ["#000","#7C3AED", "#FFF"],
+    "featured": true
+}

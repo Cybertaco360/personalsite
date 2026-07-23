@@ -1,0 +1,16 @@
+{
+    "title": "First Software Engineering Internship",
+    "description": "Started my first software engineering internship with Faradix through a collaboration involving the University of Waterloo. The work centres on software libraries and SDK development, giving me my first experience contributing to software intended for real users and systems.",
+    "type": "work",
+    "startDate": "2026-07-01",
+    "endDate": "",
+    "skills": [
+        "Software Libraries",
+        "SDK Development"
+    ],
+    "achievements": [],
+    "links": [],
+    "icon": "material-symbols:work",
+    "color": ["#0FF66E", "#14B8F6"],
+    "featured": true
+}
