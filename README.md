@@ -234,3 +234,8 @@ Run `pnpm build` before deploying unless the hosting platform runs the build com
 This website is a garden, not a museum.
 
 Things here change over time. Old opinions may disappear. New ideas may contradict older ones. Hopefully that's a sign that I'm still learning.
+
+## Credits
+
+Twilight (by Spr-Aachen): [Here](https://github.com/spr-aachen/twilight)
+
