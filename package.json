@@ -11,7 +11,9 @@
 		"build": "node scripts/generate-icons.js && node scripts/build-with-pagefind.cjs",
 		"preview": "astro preview",
 		"astro": "astro",
-		"new-post": "node scripts/new-post.js"
+		"new-post": "node scripts/new-post.js",
+		"deploy": "pnpm build && wrangler deploy",
+    	"preview:worker": "pnpm build && wrangler dev"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.9",
