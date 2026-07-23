@@ -429,11 +429,11 @@ musicPlayer:
                 # 作者
                 artist: "Altare"
                 # 封面
-                cover: "/public/assets/music/Addison Rae - Fame is a Gun [Altare Remix].jpg"
+                cover: "/assets/music/Addison Rae - Fame is a Gun [Altare Remix].jpg"
                 # 音乐路径
-                url: "/public/assets/music/Addison Rae - Fame is a Gun [Altare Remix].mp3"
+                url: "/assets/music/Addison Rae - Fame is a Gun [Altare Remix].mp3"
                 # 歌词路径
-                lrc: "/public/assets/music/Addison Rae - Fame is a Gun [Altare Remix].lrc"
+                lrc: "/assets/music/Addison Rae - Fame is a Gun [Altare Remix].lrc"
                 # 时长
                 duration: 212
     # 是否自动播放
