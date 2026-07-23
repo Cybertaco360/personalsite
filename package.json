@@ -13,7 +13,7 @@
 		"astro": "astro",
 		"new-post": "node scripts/new-post.js",
 		"deploy": "pnpm build && wrangler deploy",
-    	"preview:worker": "pnpm build && wrangler dev"
+		"preview:worker": "pnpm build && wrangler dev"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.9",
@@ -84,7 +84,8 @@
 		"@types/sanitize-html": "^2.16.1",
 		"node-addon-api": "^8.9.0",
 		"node-gyp": "^12.4.0",
-		"postcss-import": "^16.1.1"
+		"postcss-import": "^16.1.1",
+		"wrangler": "^4.114.0"
 	},
 	"packageManager": "pnpm@9.14.4"
 }
