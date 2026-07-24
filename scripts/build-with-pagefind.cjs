@@ -1,7 +1,7 @@
 /* This is a script to build the site with Pagefind */
 
 const { execSync } = require('child_process');
-const { existsSync } = require('fs');
+const { existsSync, rmSync } = require('fs');
 const { join } = require('path');
 
 // Detect the platform
@@ -46,6 +46,14 @@ function getPagefindOutputDir(platform) {
     return outputDirs[platform] || 'dist';
 }
 
+function clearAstroContentCache() {
+    const contentCachePath = join(process.cwd(), '.astro', 'data-store.json');
+    if (existsSync(contentCachePath)) {
+        rmSync(contentCachePath);
+        console.log('🧹 Cleared Astro content cache');
+    }
+}
+
 // Main function
 function main() {
     const platform = detectPlatform();
@@ -55,6 +63,8 @@ function main() {
     console.log(`📁 Pagefind output directory: ${outputDir}`);
 
     try {
+        clearAstroContentCache();
+
         // Run Astro build
         console.log('🔨 Running Astro build...');
         execSync(`npx astro build`.trim(), {

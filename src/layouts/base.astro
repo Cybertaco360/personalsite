@@ -316,6 +316,7 @@ import { initWallpaperMode } from "@utils/wallpaper";
 import { initTheme } from "@utils/theme";
 import { initHue } from "@utils/hue";
 import { initMarkdownActions } from "@/utils/markdown";
+import { initGithubCards } from "@/utils/github-card";
 import { initFancybox, cleanupFancybox } from "@utils/fancybox";
 import { loadAndInitTranslate } from "@utils/language";
 import { setupParticleEffects } from "@/utils/particle";
@@ -440,8 +441,10 @@ const setup = () => {
         }, 300);
         // Initialize Fancybox
         initFancybox();
+        initGithubCards();
     });
     initFancybox();
+    initGithubCards();
     window.swup.hooks.on("content:replace", () => {
             cleanupFancybox();
         },
@@ -503,6 +506,9 @@ initWallpaperMode();
 
 // 初始化 Markdown 相关操作以防止因 Swup 无刷新跳转的机制限制而导致操作失效
 initMarkdownActions();
+
+// Initialize GitHub cards rendered from markdown directives
+initGithubCards();
 
 // Initialize translate.js
 loadAndInitTranslate();
