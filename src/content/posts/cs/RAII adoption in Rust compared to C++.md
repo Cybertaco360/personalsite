@@ -4,7 +4,7 @@ published: 2026-07-23
 updated: 2026-07-23
 description: "Argument on whether ownership should or shouldn't become a modern standard."
 cover: "/assets/images/thumbnails/1.png"
-coverInContent: true
+coverInContent: false
 category: ["cs"]
 tags: ["C++", "Rust"]
 lang: "en"
