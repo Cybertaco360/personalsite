@@ -180,4 +180,4 @@ Reddits:
 - [r/BabelForum](https://www.reddit.com/r/BabelForum/)
 
 #### Meme of the post
-<img src="/public/assets/images/content/libraryofbabel/meme.jpg">
+<img src="/assets/images/content/libraryofbabel/meme.jpg">
