@@ -1,0 +1,17 @@
+{
+  "title": "SJTU AI Course Archive",
+  "course": "EST2501",
+  "author": "Loping151",
+  "source": "https://github.com/Loping151/SJTU_AI",
+  "mirror": "https://github.com/YOUR_USERNAME/SJTU_AI",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to Loping151.",
+  "category": "Electrical Engineering",
+  "tags": [
+    "Digital Electronics",
+    "AI Program",
+    "Course Archive"
+  ],
+  "content": "<p>Archive of coursework and notes from SJTU AI program courses, including historical EST2501 materials.</p>",
+  "color": "#f2b134"
+}

@@ -1,0 +1,19 @@
+{
+  "title": "EE1503 Engineering Practice and Innovation I",
+  "course": "EE1503",
+  "author": "youyeyejie",
+  "source": "https://github.com/youyeyejie/EE1503_2023-2024-2",
+  "mirror": "https://github.com/YOUR_USERNAME/EE1503_2023-2024-2",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to youyeyejie.",
+  "category": "Engineering",
+  "tags": [
+    "Engineering",
+    "Innovation",
+    "Projects",
+    "C++",
+    "Assignments"
+  ],
+  "content": "<p>Course materials including programming assignments, engineering projects, and coursework from the EE1503 Engineering Practice and Innovation I course.</p>",
+  "color": "#ff8c42"
+}

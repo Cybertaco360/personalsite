@@ -1,0 +1,19 @@
+{
+  "title": "CS2501 Discrete Mathematics Course Website (2026 Spring)",
+  "course": "CS2501",
+  "author": "AISIGSJTU",
+  "source": "https://github.com/AISIGSJTU/CS2501-05",
+  "mirror": "https://github.com/YOUR_USERNAME/CS2501-05",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to AISIGSJTU.",
+  "category": "Computer Science",
+  "tags": [
+    "Discrete Mathematics",
+    "Logic",
+    "Graph Theory",
+    "Course Website",
+    "SJTU"
+  ],
+  "content": "<p>Public course website for SJTU's CS2501 Discrete Mathematics course. Includes schedules, announcements, assignments, and course resources from the 2026 Spring offering.</p>",
+  "color": "#4f8ef7"
+}

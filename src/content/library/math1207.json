@@ -7,5 +7,7 @@
     "relationship": "GitHub fork",
     "ownership": "Original material belongs to the repository author",
     "category": "Mathematics",
-    "tags": ["Probability", "Statistics", "Mathematics", "Course Notes"]
+    "tags": ["Probability", "Statistics", "Mathematics", "Course Notes"],
+    "content": "<p>This repository contains my personal notes and resources for the MATH1207 Probability and Statistics course. It includes lecture notes, exercises, and additional materials to aid in understanding the subject matter.</p> <p>Feel free to explore the content and use it for your own learning purposes. If you find any errors or have suggestions for improvement, please feel free to contribute or reach out!</p>",
+    "color": "#61e"
 }

@@ -1,0 +1,18 @@
+{
+  "title": "MATH1205 Linear Algebra Notes",
+  "course": "MATH1205",
+  "author": "youyeyejie",
+  "source": "https://github.com/youyeyejie/MATH1205_2023-2024-1",
+  "mirror": "https://github.com/YOUR_USERNAME/MATH1205_2023-2024-1",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to youyeyejie.",
+  "category": "Mathematics",
+  "tags": [
+    "Linear Algebra",
+    "Matrices",
+    "Eigenvalues",
+    "Course Notes"
+  ],
+  "content": "<p>Student lecture notes covering matrices, vector spaces, determinants, eigenvalues, eigenvectors, and related topics.</p>",
+  "color": "#61e"
+}

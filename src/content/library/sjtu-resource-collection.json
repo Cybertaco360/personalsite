@@ -1,0 +1,18 @@
+{
+  "title": "SJTU Course Resource Collection",
+  "course": "Multiple",
+  "author": "uu-matter543",
+  "source": "https://github.com/uu-matter543/SJTU-Course-Resource",
+  "mirror": "https://github.com/YOUR_USERNAME/SJTU-Course-Resource",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to uu-matter543.",
+  "category": "Reference",
+  "tags": [
+    "SJTU",
+    "Multiple Courses",
+    "Course Notes",
+    "Resources"
+  ],
+  "content": "<p>A collection of study materials covering multiple Shanghai Jiao Tong University courses, including mathematics and computer science.</p>",
+  "color": "#888"
+}

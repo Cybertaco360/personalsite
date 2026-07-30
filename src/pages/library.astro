@@ -1,0 +1,258 @@
+---
+export const prerender = true;
+
+import sanitizeHtml from "sanitize-html";
+import GridLayout from "@layouts/grid.astro";
+import BackwardButton from "@components/backwardButton.astro";
+
+type LibraryBook = {
+    title: string;
+    category?: string;
+    author?: string;
+    course?: string;
+    source?: string;
+    mirror?: string;
+    relationship?: string;
+    ownership?: string;
+    tags?: string[];
+    content?: string;
+    color?: string;
+};
+
+const getBookColors = (value?: string) => {
+    const color = value?.trim();
+    if (!color || !/^#(?:[\da-f]{3}|[\da-f]{6})$/i.test(color)) return null;
+
+    const hex = color.slice(1);
+    const expanded = hex.length === 3
+        ? hex.split("").map((character) => character + character).join("")
+        : hex;
+    const red = Number.parseInt(expanded.slice(0, 2), 16);
+    const green = Number.parseInt(expanded.slice(2, 4), 16);
+    const blue = Number.parseInt(expanded.slice(4, 6), 16);
+    const luminance = (red * 299 + green * 587 + blue * 114) / 1000;
+
+    return {
+        background: color,
+        foreground: luminance > 165 ? "#242424" : "#ffffff",
+    };
+};
+
+const modules = import.meta.glob<{ default: LibraryBook }>(
+    "../content/library/*.json",
+    { eager: true },
+);
+
+const books = Object.entries(modules)
+    .map(([path, module], index) => ({
+        ...module.default,
+        id: path.split("/").pop()?.replace(/\.json$/, "") ?? `book-${index}`,
+        category: module.default.category?.trim() || "Uncategorized",
+        tags: Array.isArray(module.default.tags) ? module.default.tags : [],
+        content: sanitizeHtml(module.default.content || "<p>No notes have been added for this book yet.</p>"),
+        paletteIndex: index % 7,
+        bookColors: getBookColors(module.default.color),
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title));
+
+const shelves = Object.entries(
+    Object.groupBy(books, (book) => book.category),
+).sort(([a], [b]) => a.localeCompare(b));
+
+const pageTitle = "Library";
+const pageDescription = "A shelf of notes, references, and resources I keep returning to.";
+---
+
+<GridLayout title={pageTitle} description={pageDescription}>
+    <div class="library-card card-base relative w-full overflow-hidden rounded-(--radius-large)">
+        <div class="relative z-10 px-4 py-5 md:px-9 md:py-6">
+            <BackwardButton currentPath={Astro.url.pathname} />
+
+            <header class="library-header mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold text-black/90 dark:text-white/90">{pageTitle}</h1>
+                    <p class="mt-3 max-w-2xl text-base leading-relaxed text-black/60 dark:text-white/60">
+                        {pageDescription} Select one to take a closer look.
+                    </p>
+                </div>
+                <div class="library-count" aria-label={`${books.length} books in the library`}>
+                    <strong>{books.length}</strong>
+                    <span>{books.length === 1 ? "book" : "books"}</span>
+                </div>
+            </header>
+
+            {shelves.length > 0 ? (
+                <div class="shelf-stack">
+                    {shelves.map(([category, categoryBooks], shelfIndex) => (
+                        <section class="shelf-section" aria-labelledby={`shelf-${shelfIndex}`}>
+                            <div class="shelf-heading">
+                                <div>
+                                    <span class="shelf-number">{String(shelfIndex + 1).padStart(2, "0")}</span>
+                                    <h2 id={`shelf-${shelfIndex}`}>{category}</h2>
+                                </div>
+                                <span>{categoryBooks?.length ?? 0} {(categoryBooks?.length ?? 0) === 1 ? "volume" : "volumes"}</span>
+                            </div>
+
+                            <div class="shelf-wrap">
+                                <div class="books" role="list">
+                                    {categoryBooks?.map((book) => (
+                                        <button
+                                            type="button"
+                                            class="book"
+                                            data-library-book={book.id}
+                                            data-color={book.paletteIndex}
+                                            style={book.bookColors
+                                                ? `--book: ${book.bookColors.background}; --book-text: ${book.bookColors.foreground};`
+                                                : undefined}
+                                            aria-label={`Open ${book.title}`}
+                                            role="listitem"
+                                        >
+                                            <span class="book-cap" aria-hidden="true"></span>
+                                            <span class="book-title">{book.title}</span>
+                                            {book.course && <span class="book-course">{book.course}</span>}
+                                            <span class="book-author">{book.author || "Unknown author"}</span>
+                                        </button>
+                                    ))}
+                                    <div class="bookend" aria-hidden="true"></div>
+                                </div>
+                                <div class="shelf-edge"><span></span></div>
+                            </div>
+                        </section>
+                    ))}
+                </div>
+            ) : (
+                <div class="empty-library">
+                    <span aria-hidden="true">◇</span>
+                    <h2>The shelves are waiting</h2>
+                    <p>Add a JSON file to <code>src/content/library/</code> to place the first book.</p>
+                </div>
+            )}
+        </div>
+    </div>
+
+    {books.map((book) => (
+        <dialog class="book-dialog" data-book-dialog={book.id} aria-labelledby={`book-title-${book.id}`}>
+            <div class="dialog-page">
+                <button type="button" class="dialog-close" data-dialog-close aria-label="Close book details">×</button>
+                <div class="dialog-topline">
+                    <span>{book.category}</span>
+                    {book.course && <span>{book.course}</span>}
+                </div>
+                <h2 id={`book-title-${book.id}`}>{book.title}</h2>
+                <p class="dialog-byline">by {book.author || "Unknown author"}</p>
+
+                {book.tags.length > 0 && (
+                    <div class="book-tags" aria-label="Tags">
+                        {book.tags.map((tag) => <span>{tag}</span>)}
+                    </div>
+                )}
+
+                <div class="book-content" set:html={book.content}></div>
+
+                {(book.relationship || book.ownership) && (
+                    <dl class="book-details">
+                        {book.relationship && <><dt>Relationship</dt><dd>{book.relationship}</dd></>}
+                        {book.ownership && <><dt>Ownership</dt><dd>{book.ownership}</dd></>}
+                    </dl>
+                )}
+
+                {(book.source || book.mirror) && (
+                    <div class="book-links">
+                        {book.source && <a href={book.source} target="_blank" rel="noopener noreferrer">View source <span>↗</span></a>}
+                        {book.mirror && <a href={book.mirror} target="_blank" rel="noopener noreferrer">Open mirror <span>↗</span></a>}
+                    </div>
+                )}
+            </div>
+        </dialog>
+    ))}
+</GridLayout>
+
+<script>
+    const initializeLibrary = () => {
+        document.querySelectorAll<HTMLButtonElement>("[data-library-book]").forEach((button) => {
+            if (button.dataset.ready) return;
+            button.dataset.ready = "true";
+            button.addEventListener("click", () => {
+                const id = button.dataset.libraryBook;
+                const dialog = document.querySelector<HTMLDialogElement>(`[data-book-dialog="${CSS.escape(id || "")}"]`);
+                dialog?.showModal();
+            });
+        });
+
+        document.querySelectorAll<HTMLDialogElement>("[data-book-dialog]").forEach((dialog) => {
+            if (dialog.dataset.ready) return;
+            dialog.dataset.ready = "true";
+            dialog.querySelector<HTMLButtonElement>("[data-dialog-close]")?.addEventListener("click", () => dialog.close());
+            dialog.addEventListener("click", (event) => {
+                if (event.target === dialog) dialog.close();
+            });
+        });
+    };
+
+    initializeLibrary();
+    document.addEventListener("astro:page-load", initializeLibrary);
+</script>
+
+<style>
+    .library-card { min-height: 32rem; }
+    .library-card::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 90% 2%, rgba(126, 87, 194, .12), transparent 30%); }
+    .library-count { display: flex; align-items: baseline; gap: .45rem; padding: .7rem 1rem; border: 1px solid var(--line-divider); border-radius: 999px; color: var(--primary); background: var(--card-bg); white-space: nowrap; }
+    .library-count strong { font-size: 1.35rem; line-height: 1; }
+    .library-count span { color: rgba(0, 0, 0, .55); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+    .shelf-stack { display: grid; gap: 3.25rem; }
+    .shelf-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin: 0 .3rem .8rem; }
+    .shelf-heading > div { display: flex; align-items: baseline; gap: .65rem; }
+    .shelf-heading h2 { color: rgba(0, 0, 0, .9); font-size: 1.45rem; font-weight: 700; }
+    .shelf-heading > span, .shelf-number { color: rgba(0, 0, 0, .5); font-size: .68rem; font-weight: 600; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; }
+    .shelf-number { color: var(--primary); }
+    .shelf-wrap { overflow: hidden; padding: .75rem .75rem 0; border-radius: .7rem .7rem .2rem .2rem; background: linear-gradient(180deg, rgba(0,0,0,.035), transparent 65%); }
+    .books { display: flex; min-height: 12.5rem; align-items: flex-end; gap: .6rem; overflow-x: auto; padding: 1rem .6rem .1rem; scrollbar-width: thin; }
+    .book { --book: #718ca2; --book-text: #fff; position: relative; display: flex; flex: 0 0 5.2rem; height: 10.8rem; flex-direction: column; align-items: flex-start; justify-content: space-between; overflow: hidden; padding: .85rem .7rem .65rem; border: 0; border-radius: .45rem .45rem .12rem .12rem; color: var(--book-text); cursor: pointer; box-shadow: 2px 3px 0 rgba(0,0,0,.12); background: var(--book); transform-origin: bottom; transition: transform .18s ease, box-shadow .18s ease; }
+    .book:nth-child(3n+2) { height: 11.5rem; transform: rotate(1.2deg); }
+    .book:nth-child(4n) { height: 10.2rem; transform: rotate(-1deg); }
+    .book[data-color="0"] { --book: #5f8990; } .book[data-color="1"] { --book: #bd7668; } .book[data-color="2"] { --book: #8a79a5; } .book[data-color="3"] { --book: #71947d; } .book[data-color="4"] { --book: #c49355; } .book[data-color="5"] { --book: #7185ad; } .book[data-color="6"] { --book: #a96d85; }
+    .book::before { content: ""; position: absolute; inset: .4rem .45rem auto; height: 2px; border-radius: 2px; background: rgba(255,255,255,.38); }
+    .book:hover, .book:focus-visible, .book:nth-child(3n+2):hover, .book:nth-child(4n):hover, .book:nth-child(3n+2):focus-visible, .book:nth-child(4n):focus-visible { z-index: 2; transform: translateY(-.45rem) rotate(0); box-shadow: 3px 7px 0 rgba(0,0,0,.13); outline: none; }
+    .book:focus-visible { box-shadow: 0 0 0 3px var(--primary), 3px 7px 0 rgba(0,0,0,.13); }
+    .book-title { display: -webkit-box; max-height: 5.2rem; overflow: hidden; padding-top: .45rem; font-size: .72rem; font-weight: 750; line-height: 1.25; letter-spacing: .01em; text-align: left; -webkit-box-orient: vertical; -webkit-line-clamp: 5; }
+    .book-course, .book-author { z-index: 1; max-width: 100%; overflow: hidden; font-size: .5rem; letter-spacing: .04em; opacity: .82; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+    .book-course { margin-top: auto; padding-bottom: .35rem; }
+    .book-author { width: 100%; border-top: 1px solid rgba(255,255,255,.28); padding-top: .4rem; }
+    .bookend { flex: 0 0 .9rem; height: 7.5rem; margin-left: .3rem; border-radius: .3rem .8rem .1rem .1rem; background: #697579; box-shadow: 2px 3px 0 rgba(0,0,0,.14); transform: rotate(3deg); }
+    .shelf-edge { position: relative; height: .75rem; border-radius: 3px 3px 6px 6px; background: #9a704e; box-shadow: 0 5px 0 rgba(72,43,26,.2); }
+    .shelf-edge::after { content: none; }
+    .empty-library { padding: 5rem 1rem; border: 1px dashed var(--line-divider); border-radius: 1rem; text-align: center; color: rgba(0, 0, 0, .55); }
+    .empty-library span { font-size: 2.5rem; color: var(--primary); } .empty-library h2 { margin: .75rem 0 .25rem; color: rgba(0, 0, 0, .9); font-size: 1.25rem; font-weight: 700; }
+    .book-dialog { position: fixed; inset: 0; width: min(43rem, calc(100% - 2rem)); max-width: none; max-height: min(48rem, calc(100dvh - 2rem)); margin: auto; padding: 0; overflow: hidden; border: 1px solid var(--line-divider); border-radius: var(--radius-large); color: inherit; background: var(--card-bg); box-shadow: 0 24px 70px rgba(0,0,0,.3); }
+    .book-dialog::backdrop { background: rgba(0, 0, 0, .5); backdrop-filter: blur(4px); }
+    .dialog-page { position: relative; overflow-x: hidden; overflow-y: auto; max-height: min(48rem, calc(100dvh - 2rem)); padding: 1.5rem clamp(1.25rem, 5vw, 2.5rem) 2rem; color: rgba(0,0,0,.9); background: var(--card-bg); overscroll-behavior: contain; scrollbar-width: none; }
+    .dialog-page::-webkit-scrollbar { display: none; width: 0; height: 0; }
+    .dialog-page::before { content: ""; display: block; width: 2.75rem; height: .25rem; margin-bottom: 1.5rem; border-radius: 999px; background: var(--primary); }
+    .dialog-close { position: sticky; z-index: 2; top: .25rem; float: right; display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border: 1px solid var(--line-divider); border-radius: .65rem; color: rgba(0,0,0,.6); background: var(--btn-regular-bg); cursor: pointer; font-size: 1.35rem; line-height: 1; transition: color .15s, background .15s, transform .15s; }
+    .dialog-close:hover { color: var(--primary); background: var(--btn-regular-bg-hover); transform: rotate(4deg); }
+    .dialog-topline { display: flex; gap: .7rem; padding-right: 2.75rem; color: var(--primary); font-size: .68rem; font-weight: 700; line-height: 1.3; letter-spacing: .08em; text-transform: uppercase; }
+    .dialog-topline span + span::before { content: "·"; margin-right: .7rem; }
+    .book-dialog h2 { clear: both; margin-top: 1rem; font-size: clamp(1.65rem, 5vw, 2.25rem); font-weight: 750; line-height: 1.15; letter-spacing: -.025em; }
+    .dialog-byline { margin-top: .55rem; color: rgba(0,0,0,.55); font-size: .9rem; }
+    .book-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1.25rem; }
+    .book-tags span { padding: .3rem .65rem; border: 1px solid var(--line-divider); border-radius: 999px; color: rgba(0,0,0,.6); background: var(--btn-regular-bg); font-size: .68rem; }
+    .book-content { margin-top: 1.75rem; color: rgba(0,0,0,.75); font-size: .98rem; line-height: 1.75; }
+    .book-content :global(p + p) { margin-top: 1rem; }
+    .book-details { display: grid; grid-template-columns: minmax(6rem, auto) 1fr; gap: .65rem 1rem; margin-top: 1.8rem; padding: 1rem; border: 1px solid var(--line-divider); border-radius: .75rem; background: var(--btn-regular-bg); font-size: .78rem; }
+    .book-details dt { color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; } .book-details dd { color: rgba(0,0,0,.6); }
+    .book-links { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.75rem; }
+    .book-links a { display: inline-flex; gap: .5rem; align-items: center; padding: .65rem .9rem; border-radius: .6rem; color: var(--primary); background: var(--btn-regular-bg); border: 1px solid var(--line-divider); font-size: .78rem; font-weight: 700; transition: transform .2s, background .2s; }
+    .book-links a:hover { background: var(--btn-regular-bg-hover); transform: translateY(-2px); }
+    :global(.dark) .library-count span, :global(.dark) .shelf-heading > span { color: rgba(255, 255, 255, .55); }
+    :global(.dark) .shelf-heading h2 { color: rgba(255, 255, 255, .9); }
+    :global(.dark) .shelf-wrap { background: linear-gradient(180deg, rgba(255,255,255,.04), transparent 65%); }
+    :global(.dark) .empty-library { color: rgba(255, 255, 255, .55); }
+    :global(.dark) .empty-library h2 { color: rgba(255, 255, 255, .9); }
+    :global(.dark) .dialog-page { color: rgba(255,255,255,.9); }
+    :global(.dark) .dialog-close { color: rgba(255,255,255,.6); }
+    :global(.dark) .dialog-close:hover { color: var(--primary); }
+    :global(.dark) .dialog-byline, :global(.dark) .book-tags span, :global(.dark) .book-details dd { color: rgba(255,255,255,.58); }
+    :global(.dark) .book-content { color: rgba(255,255,255,.75); }
+    @media (max-width: 480px) { .book { flex-basis: 4.6rem; } .shelf-heading > span { display: none; } .dialog-close { margin-right: 0; } .book-details { grid-template-columns: 1fr; } .book-details dd + dt { margin-top: .5rem; } }
+    @media (prefers-reduced-motion: reduce) { .book, .book-links a { transition: none; } }
+</style>

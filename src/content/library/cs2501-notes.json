@@ -1,0 +1,19 @@
+{
+  "title": "CS2501 Markdown Notes",
+  "course": "CS2501",
+  "author": "youyeyejie",
+  "source": "https://github.com/youyeyejie/CS2501_2024-2025-1",
+  "mirror": "https://github.com/YOUR_USERNAME/CS2501_2024-2025-1",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to youyeyejie.",
+  "category": "Computer Science",
+  "tags": [
+    "Discrete Mathematics",
+    "Lecture Notes",
+    "Logic",
+    "Sets",
+    "Graphs"
+  ],
+  "content": "<p>Student-written Markdown notes covering the major topics of CS2501, including propositional logic, predicate logic, set theory, relations, functions, and graph theory.</p>",
+  "color": "#4f8ef7"
+}

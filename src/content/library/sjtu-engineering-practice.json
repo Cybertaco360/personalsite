@@ -1,0 +1,18 @@
+{
+  "title": "SJTU Engineering Practice Repository",
+  "course": "EE1503",
+  "author": "wsm25",
+  "source": "https://github.com/wsm25/SJTU",
+  "mirror": "https://github.com/YOUR_USERNAME/SJTU",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to wsm25.",
+  "category": "Engineering",
+  "tags": [
+    "Engineering",
+    "Projects",
+    "Code",
+    "SJTU"
+  ],
+  "content": "<p>Collection of engineering practice coursework and source code from various SJTU engineering classes.</p>",
+  "color": "#ff8c42"
+}

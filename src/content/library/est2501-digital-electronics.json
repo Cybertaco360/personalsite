@@ -1,0 +1,18 @@
+{
+  "title": "EST2501 Digital Electronics Notes",
+  "course": "EST2501",
+  "author": "UNIkeEN",
+  "source": "https://github.com/UNIkeEN/course-notes",
+  "mirror": "https://github.com/YOUR_USERNAME/course-notes",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to UNIkeEN.",
+  "category": "Electrical Engineering",
+  "tags": [
+    "Digital Electronics",
+    "Logic Circuits",
+    "Flip-Flops",
+    "Course Notes"
+  ],
+  "content": "<p>Student notes covering digital logic design, Boolean algebra, combinational circuits, sequential circuits, and related laboratory material.</p>",
+  "color": "#f2b134"
+}

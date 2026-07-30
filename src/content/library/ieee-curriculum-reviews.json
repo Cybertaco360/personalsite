@@ -1,0 +1,18 @@
+{
+  "title": "IEEE Curriculum Reviews",
+  "course": "EST2501",
+  "author": "sjtu-ieee",
+  "source": "https://github.com/sjtu-ieee/ieee.icu",
+  "mirror": "https://github.com/YOUR_USERNAME/ieee.icu",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to sjtu-ieee.",
+  "category": "Reference",
+  "tags": [
+    "IEEE",
+    "Course Reviews",
+    "SJTU",
+    "Curriculum"
+  ],
+  "content": "<p>Community-maintained reviews and curriculum information for SJTU IEEE-related courses.</p>",
+  "color": "#888"
+}

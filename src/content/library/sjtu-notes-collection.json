@@ -1,0 +1,18 @@
+{
+  "title": "SJTU Notes Collection",
+  "course": "Multiple",
+  "author": "youyeyejie",
+  "source": "https://github.com/youyeyejie/SJTUnotes",
+  "mirror": "https://github.com/YOUR_USERNAME/SJTUnotes",
+  "relationship": "GitHub fork",
+  "ownership": "Original material belongs to youyeyejie.",
+  "category": "Reference",
+  "tags": [
+    "SJTU",
+    "Course Notes",
+    "Multiple Courses",
+    "Reference"
+  ],
+  "content": "<p>A comprehensive collection of student-written notes covering multiple SJTU mathematics and computer science courses.</p>",
+  "color": "#888"
+}
