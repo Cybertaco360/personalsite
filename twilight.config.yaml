@@ -207,6 +207,16 @@ navbar:
                     icon: "material-symbols:collections-bookmark"
                     # 导航描述
                     description: "Currently working on and exploring"
+                - # 二级导航链接 - 书架 (自定义)
+                    # 导航名称
+                    name: "Library"
+                    # 导航链接
+                    url: "/library/"
+                    # 导航图标
+                    icon: "material-symbols:auto-stories"
+                    # 导航描述
+                    description: "A curated collection of my favorite resources"
+
         - # 一级导航链接 - 好友 (预设)
             "Friends"
         - # 一级导航链接 - 关于 (预设)

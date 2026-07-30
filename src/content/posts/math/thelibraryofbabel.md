@@ -109,7 +109,7 @@ $$
 \exists V(H) \subseteq \R^n, L = \bigcup_{v\in V(H)}R_v
 $$
 We would imagine the **boundary** (we will denote a boundary operator $\partial$) of the convex hull of the library to be its boundary being $\partial\text{conv}(L)$.
-if the library is infinite and its rooms extend throughout every direction of $R^n$, then simply:
+if the library is infinite and its rooms extend throughout every direction of $\R^n$, then simply:
 $$
 \text{conv}(L) = \R^n
 $$
