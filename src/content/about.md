@@ -15,22 +15,11 @@ This site was made in Astro.js using Twilight by Spr-Aachen as the main theme, a
 ## About me
 I'm a Canadian Computer Science and Technology student at Shanghai Jiao Tong University Class of 2030 with interests spanning many fields from mathematics to quantum computing.
 
-## Achievements
-Few things I'm proud of:
-
-University of Waterloo EVC 24V 1st Place X2
-
-University of Waterloo EVC 12V 2026 Event Champion
-
-First Robotics Competition Regional Champion
-
-Western Science Olympics Semifinalist
-
-University of Waterloo Mathematics Distinction X5
-
 ## Find me elsewhere
 
-**Email:** 70378yan@gmail.com
+**Email:** themaplesyrup@sjtu.edu.cn
+
+**Personal Academic Site:** https://Cybertaco360.github.io
 
 **Github:** https://github.com/Cybertaco360
 
